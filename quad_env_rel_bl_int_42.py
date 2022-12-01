@@ -106,29 +106,7 @@ class QuadEnvBLInt(gym.Env):
             shape=(4,),
             dtype=np.float32)
     
-    ### Observable/State
-
-    state = [0, 0]
-    action = 0
-
-    ### Evaluation info
-    phase_correction = 0
-    initial_offset = 0
-    diff_estimate = 0
-    diff_estimate_memory = []
-
-    ### Status of the iterations
-    # Steps, i.e. number of cycles
-    counter = 0
-    curr_step = -1  ## Not used ?
     
-    # Episodes, i.e. number of MDs, number of LHC fills...
-    curr_episode = -1
-    action_episode_memory = []
-    state_memory = []
-    phase_set_memory = []
-    reward_memory = []
-    is_finalized = False
     def __init__(self, max_step_size=20,
                  min_setting=min_setting, max_setting=max_setting,
                  #min_spread=min_spread, max_spread=max_spread, 
@@ -138,6 +116,29 @@ class QuadEnvBLInt(gym.Env):
         """
         Initialize the environment
         """
+        ### Observable/State
+
+        self.state = [0, 0]
+        self.action = 0
+
+        ### Evaluation info
+        self.phase_correction = 0
+        self.initial_offset = 0
+        self.diff_estimate = 0
+        self.diff_estimate_memory = []
+
+        ### Status of the iterations
+        # Steps, i.e. number of cycles
+        self.counter = 0
+        self.curr_step = -1  ## Not used ?
+
+        # Episodes, i.e. number of MDs, number of LHC fills...
+        self.curr_episode = -1
+        self.action_episode_memory = []
+        self.state_memory = []
+        self.phase_set_memory = []
+        self.reward_memory = []
+        self.is_finalized = False
         ### Settings
         self.min_setting = min_setting
         self.max_setting = max_setting
@@ -183,7 +184,7 @@ class QuadEnvBLInt(gym.Env):
         self.reward_memory[self.curr_episode].append(reward)
         info = {'success': success, 'steps': self.counter, 'phase_corr': self.phase_correction, 'initial_phase': self.initial_offset, 'diff_estimate': self.diff_estimate, 'profile': self.profile}
         
-        return state, reward, self.is_finalized, info
+        return state, reward.astype(np.float64), self.is_finalized, info
     
     def _take_action(self, action):
         """
@@ -256,7 +257,7 @@ class QuadEnvBLInt(gym.Env):
             bls_and_intensities = np.append(fwhms, intensities) # state: [bl1,bl2,bi1,bi2]
             state = bls_and_intensities
         
-        return state
+        return state.astype(np.float32)
     
     def _get_reward(self):
         """ Evaluating the reward from the observable/state. 
@@ -338,7 +339,7 @@ class QuadEnvBLInt(gym.Env):
         self.reward_memory[self.curr_episode].append(reward)
         curr_diff_estimate = np.copy(self.diff_estimate)
         self.diff_estimate_memory[self.curr_episode].append(curr_diff_estimate)
-        return state
+        return state.astype(np.float32) 
 
     def seed(self, seed=None):
         """
@@ -367,7 +368,7 @@ class QuadEnvBLInt(gym.Env):
         plt.axhline(y=BUNCH_LENGTH_INT_CRITERIA, color='k', linestyle='--')
         plt.subplot(133)
         plt.title('h42 phase offset')
-        plt.plot(self.phase_set_memory[self.curr_episode], 'go-')
+        plt.plot(np.asarray(self.phase_set_memory[self.curr_episode], dtype=object), 'go-')
         plt.axhline(y=0, color='k', linestyle='--')
         plt.ylim((-30,30))
         

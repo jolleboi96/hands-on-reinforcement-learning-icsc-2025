@@ -102,10 +102,10 @@ class Datamatrix_lookup_class_double():
         x = int(x*100)
         abs_diff_function1 = lambda list_value: abs(list_value - x)
         closest_p42 = min(self.p42_labels, key=abs_diff_function1)
-        if x>=3000:
+        if x>=4500:
             x1 = closest_p42
             x0 = closest_p42
-        elif x<=-3000:
+        elif x<=-4500:
             x1 = closest_p42
             x0 = closest_p42
         elif closest_p42 > x:
@@ -143,47 +143,38 @@ class Datamatrix_lookup_class_double():
         path = self.dictionary["{}".format(p42)]["{}".format(p84)]
         return np.load(path)
 
-    def get_interpolated_matrix(self, x, y):  # Insert any continuous p42,p84 and get an interpolated matrix
+    def get_interpolated_matrix(self, x):  # Insert any continuous p42,p84 and get an interpolated matrix
         # Find closest value of x and y in p42/p84 labels
         x = int(x*100)
-        y = int(y*100)
         abs_diff_function1 = lambda list_value: abs(list_value - x)
-        abs_diff_function2 = lambda list_value: abs(list_value - y)
         closest_p42 = min(self.p42_labels, key=abs_diff_function1)
-        
-        if closest_p42 > x:
-            upper_p42 = closest_p42
-            lower_p42 = closest_p42-self.step_size
-        if closest_p42 <= x:
-            upper_p42 = closest_p42+self.step_size
-            lower_p42 = closest_p42
-        closest_p84 = min(self.p84_labels, key=abs_diff_function2)
-        if closest_p84 > y:
-            upper_p84 = closest_p84
-            lower_p84 = closest_p84-self.step_size
-        if closest_p84 <= y:
-            upper_p84 = closest_p84+self.step_size
-            lower_p84 = closest_p84
 
-
-
-
-        values1 = np.load(self.dictionary[str(upper_p42)][str(upper_p84)])
-        q01 = np.load(self.dictionary[str(lower_p42)][str(upper_p84)])
-        q00 = np.load(self.dictionary[str(lower_p42)][str(lower_p84)])
-        q10 = np.load(self.dictionary[str(upper_p42)][str(lower_p84)])
+        if x>=4500:
+            x1 = closest_p42
+            x0 = closest_p42
+        elif x<=-4500:
+            x1 = closest_p42
+            x0 = closest_p42
+        elif closest_p42 > x:
+            x1 = closest_p42
+            x0 = closest_p42-self.step_size
+        elif closest_p42 <= x:
+            x1 = closest_p42+self.step_size
+            x0 = closest_p42
+    
 
         # Compute distances
+        if x1==x0:
+            xd =0
+        else:
+            xd = (x/100-x0/100)/(x1/100-x0/100)
 
-        dist1 = compute_2d_distance(upper_p42,upper_p84, x,y)
-        dist2 = compute_2d_distance(lower_p42,upper_p84, x,y)
-        dist3 = compute_2d_distance(lower_p42,lower_p84, x,y)
-        dist4 = compute_2d_distance(upper_p42,lower_p84, x,y)
-        dist1234 = [dist1, dist2, dist3, dist4]/(dist1+dist2+dist3+dist4)
-        #print("Distances: {}".format(dist1234))
-        interp_values = (values1*(1-dist1234[0]) + q01*(1-dist1234[1]) + q00*(1-dist1234[2]) + q10*(1-dist1234[3]))
+        y1 = np.load(convert_profile_path_to_dm(self.dictionary[str(x1)]))
+        y0 = np.load(convert_profile_path_to_dm(self.dictionary[str(x0)]))
 
-        return interp_values
+        y = y0 + (xd)*(y1-y0)
+
+        return y
         
     def get_available_p42(self):
         return self.p42_labels
@@ -191,11 +182,11 @@ class Datamatrix_lookup_class_double():
     def get_available_p84(self):
         return self.p84_labels
 
-def convert_dm_path_to_profile(path):
-    dir_name = os.path.dirname(path) + r'\profiles'
+def convert_profile_path_to_dm(path):
+    dir_name = os.path.dirname(os.path.dirname(path))
     file = os.path.basename(path)
     split = file.split('_')
-    split[-1] = 'profile.npy'
+    split[-1] = 'datamatrix.npy'
     new_name = '_'.join(split)
     new_path = dir_name + r'\{}'.format(new_name)
     return new_path
@@ -205,6 +196,7 @@ def compute_2d_distance(x1,y1, x2,y2):
     return dist
 
 def deg2idx(p42,p84, lookup_class):
+     
     p42max = max(lookup_class.p42_labels)
     p42min = min(lookup_class.p42_labels)
     p84max = max(lookup_class.p84_labels)
@@ -243,11 +235,11 @@ if __name__ == "__main__":
 
     #Test interpolation
 
-    interpol1 = Data.get_interpolated_profile(-2.5)
+    interpol1 = Data.get_interpolated_matrix(45)
     interpol2 = Data.get_interpolated_profile(-1.5)
     interpol3 = Data.get_interpolated_profile(0)
     interpol4 = Data.get_interpolated_profile(1.5)
-
+    test = convert_profile_path_to_dm(Data.dictionary['2000'])
     plt.figure()
     plt.subplot(141)
     plt.plot(interpol1)

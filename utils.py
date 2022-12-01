@@ -1,7 +1,15 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.signal import find_peaks
+from torchvision import transforms
+from dataloader import ToTensor, Normalize, AddNoise
+import gym
 
+transform=transforms.Compose([
+            Normalize(),
+            ToTensor(),
+            AddNoise(),
+        ])
 # Utilities file for RL functions
 
 # Calculate criterion as a loss
@@ -31,6 +39,16 @@ def loss_function_tri(b1,b2,b3, verbose=False):
         print(f"loss: {loss}")
     #reward = -loss
     return loss 
+
+def transform_profile(input):
+    # Convert input into normalized tensor
+    sample = {}
+    sample['image'] = input
+    sample['labels'] = np.array([0,0])
+    transformed_sample = transform(sample) # add some transforms to make the datapoint noisy, more similar to measurements.
+    input = transformed_sample['image']
+
+    return input.numpy()[0]
 
 def loss_function_quad(b1,b2,b3, b4, verbose=False): 
     # Single out each bunch. 400 bins and three bunches, initial bucket 308ns/3 ~ 102.6667
@@ -266,3 +284,37 @@ def profile_reward_quad(profile, verbose=False):
     loss = (mse12 + mse13 + mse14 + mse23 + mse24 + mse34)/6
     reward = -loss
     return reward
+
+
+# Some testing functions to check implementations
+
+def test_spaces(obs_space, act_space):
+    action_space = gym.spaces.Box(
+                                low = np.array([-1,]),# Fill in the _ with your lowest action. Dimensions of array correlate with dimensions of actions.
+                                high = np.array([1,]),# Fill in the _ with your highest action.
+                                shape=(1,),           # Fill in the _ with the dimensions of your action space.
+                                dtype=np.float32)
+
+
+    ### Define what the observations are to be expected
+    observation_space = gym.spaces.Box(
+                                low = np.array([-1,-1,-1,-1]), # Fill in the __ with your observation settings.
+                                high = np.array([1,1,1,1]),
+                                shape=(4,),
+                                dtype=np.float32)
+    obs_good = True
+    act_good = True
+    try:
+        assert obs_space == observation_space
+    except AssertionError:
+        print(f'Observation space not as expected.')
+        print(f'Expected: {observation_space}, received {obs_space}')
+        obs_good=False
+    try:    
+        assert act_space == action_space
+    except AssertionError:
+        print(f'Action space not as expected.')
+        print(f'Expected: {action_space}, received {act_space}')
+        act_good=False
+    if act_good and obs_good:
+        print(f'Observation and action space as expected, good job!')

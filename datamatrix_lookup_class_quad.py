@@ -13,8 +13,8 @@ import matplotlib.pyplot as plt
 
 #SAVE_PATH = r"H:\user\j\jwulff\SWAN_projects\batch_jobs2\outputs\datamatrix_files\quad\assembled_lookup_tables\quad_datamatrix"
 #DATA_PATH = r"H:\user\j\jwulff\SWAN_projects\batch_jobs2\outputs\datamatrix_files\quad\machine_settings_fixed"
-DATA_PATH = "/eos/project/s/sy-rf-br/Machines/PS/DatasetsForML/Quadsplit" # Generalized path
-#DATA_PATH = r"\\eosproject-smb\eos\project\s\sy-rf-br\Machines\PS\DatasetsForML\Quadsplit"
+#DATA_PATH = "/eos/project/s/sy-rf-br/Machines/PS/DatasetsForML/Quadsplit" # Generalized path
+DATA_PATH = r"\\eosproject-smb\eos\project\s\sy-rf-br\Machines\PS\DatasetsForML\Quadsplit"
 
 
 first_file = True

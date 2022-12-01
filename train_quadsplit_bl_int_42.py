@@ -52,7 +52,7 @@ log_dir = './'
 ent_coef = 1/5
 model = SAC("MlpPolicy", env, verbose=1, ent_coef=ent_coef, learning_starts=100, tensorboard_log="./hands-on_rl_tensorboard")
 print("Starting training...")
-model.learn(total_timesteps=10000, callback=eval_callback, log_interval=5, tb_log_name="hands_on_rl")
+model.learn(total_timesteps=1000, callback=eval_callback, log_interval=5, tb_log_name="hands_on_rl")
 print("Completed training")
 model.save("doublesplit_cnn_fixed")
 env = model.get_env()
