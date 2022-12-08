@@ -1,0 +1,19 @@
+# run: conda env create --file environment.yml
+name: RL-hands-on-env
+dependencies:
+- python>=3.7
+- anaconda
+- pip
+- numpy=1.13.3  # pin version for conda
+- pytorch
+- torchvision
+- jupyterlab
+- pip:
+  # works for regular pip packages
+  - gym
+  - numpy
+  - matplotlib
+  - torchvision
+  - gym
+  - scipy
+  
