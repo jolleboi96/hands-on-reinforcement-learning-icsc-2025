@@ -19,12 +19,20 @@ It is assumed that you have a working python distribution installed on your syst
 
 From an anaconda prompt terminal, navigate to the folder in which you have placed the files of this repository. Then, run the command to create a new virtual environment with the required dependencies for this excercise.
 
-<code>conda env create --file environment.yml </code>
+<code>conda create --name rl-hands-on</code>
 
-The name of the new environment will be <code>RL-hands-on-env</code>, as specified in the environment.yml file.
+The name of the new environment will be <code>rl-hands-on</code>.
 
 After your virtual environment is created, you also need to activate it in your terminal. This is done through the following command:
 <code>conda activate RL-hands-on-env </code>, if you are using anaconda.
+
+#### Installing packages (conda)
+
+Run the following commands to install the necessary packages.
+
+<code>conda install pytorch torchvision cpuonly -c pytorch</code>
+
+<code>pip install gym matplotlib numpy scipy jupyterlab stable-baselines3 tensorboard</code>
 
 ### Using pip (standard python)
 From a terminal, write the command
