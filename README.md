@@ -13,17 +13,26 @@ You can do this either through git clone or simply downloading the .zip file of 
 
 ## Creating a new python virtual environment and install the project dependencies
 
-It is assumed that you have a working python distribution installed on your system. Then, from a terminal you can run the command
+It is assumed that you have a working python distribution installed on your system. Depending on whether you are using a basic python distribution or Anaconda, check the relevation sections below.
 
-<code>python3 -m venv /path/to/new/virtual/environment </code> if you are running a pure python distribution, or
-<code>conda create --name myenv </code>, if you are using anaconda.
+### Using Conda
+
+From an anaconda prompt terminal, navigate to the folder in which you have placed the files of this repository. Then, run the command to create a new virtual environment with the required dependencies for this excercise.
+
+<code>conda env create --file environment.yml </code>
+
+The name of the new environment will be <code>RL-hands-on-env</code>, as specified in the environment.yml file.
 
 After your virtual environment is created, you also need to activate it in your terminal. This is done through the following command:
+<code>conda activate RL-hands-on-env </code>, if you are using anaconda.
 
-<code>python3 source /path/to/new/virtual/environment/bin/activate </code> if you are running a pure python distribution, or
-<code>conda activate myenv </code>, if you are using anaconda.
+### Using pip (standard python)
+From a terminal, write the command
+<code>python3 -m venv /path/to/new/virtual/environment </code> to create your venv.
+After your virtual environment is created, you also need to activate it in your terminal. This is done through the following command:
+<code>python3 source /path/to/new/virtual/environment/bin/activate </code>
 
-### Installing required packages in your venv
+#### Installing required packages in your venv
 
 With your venv activated, you can now install the necessary packages for the notebook excercise. This is done by directing pip to a requirements.txt file in this gitlab repository, which you have downloaded already. In your terminal, with your new virtual environment activated, navigate to the local folder of your donwloaded project files and run the following command,
 
