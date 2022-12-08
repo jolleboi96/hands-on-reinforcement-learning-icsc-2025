@@ -30,3 +30,16 @@ With your venv activated, you can now install the necessary packages for the not
 <code>pip install -r requirements.txt</code>
 
 This should install all packages you will need to run the notebook.
+
+If there are any issues using the requirements.txt file to install your packages, the ones you need are as follows:
+
+<pre><code> 
+stable-baselines3
+numpy
+matplotlib
+torchvision
+gym
+scipy
+jupyterlab
+torch
+</pre></code> 
