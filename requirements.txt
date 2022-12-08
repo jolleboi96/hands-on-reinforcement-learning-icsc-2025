@@ -4,3 +4,5 @@ matplotlib
 torchvision
 gym
 scipy
+jupyterlab
+torch
