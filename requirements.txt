@@ -6,3 +6,4 @@ gym
 scipy
 jupyterlab
 torch
+tensorboard

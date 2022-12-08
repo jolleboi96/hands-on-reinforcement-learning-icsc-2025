@@ -188,7 +188,7 @@ def convert_profile_path_to_dm(path):
     split = file.split('_')
     split[-1] = 'datamatrix.npy'
     new_name = '_'.join(split)
-    new_path = dir_name + r'\{}'.format(new_name)
+    new_path = dir_name + '/{}'.format(new_name)
     return new_path
 
 def compute_2d_distance(x1,y1, x2,y2):
