@@ -12,6 +12,33 @@ transform=transforms.Compose([
         ])
 # Utilities file for RL functions
 
+def test_reward(test_environment):
+    phases = np.linspace(-45,45,361)
+    rewards = []
+    diff_estimates = []
+
+    for phase in phases:
+        test_environment.reset() # Initialize 
+        test_environment.phase_set = phase # manually change phase setting
+        test_environment.state = test_environment._get_state() # Manually update the state based on current self.phase_set
+        reward = test_environment._get_reward() # Manually calculate reward based on current self.state
+
+        rewards.append(reward)
+        diff_estimates.append(test_environment.diff_estimate) # Also track difference estimates for visited states.
+
+    # Plotting
+
+    ax1= plt.subplot(211)
+    plt.title('Reward/diff_estimate given at different phase offsets')
+    plt.plot(rewards, 'r')
+    plt.ylabel('Received reward')
+    ax2 = plt.subplot(212, sharex=ax1)
+    plt.plot(diff_estimates)
+    plt.ylabel('Difference estimate')
+    plt.xticks(np.linspace(0,361,5), np.linspace(-45,45,5))
+    plt.xlabel('Phase offset [deg]')
+
+
 # Calculate criterion as a loss
 def loss_function_two(b1,b2, verbose=False): 
     # Single out each bunch. 400 bins and three bunches, initial bucket 308ns/3 ~ 102.6667
