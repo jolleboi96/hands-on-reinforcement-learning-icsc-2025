@@ -6,6 +6,10 @@
 /quadsplit_BL_tensorboard
 /tensorboard_logs
 
+# vs code
+.vscode*
+.sys.v*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
