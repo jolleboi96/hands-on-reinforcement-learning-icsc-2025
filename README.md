@@ -24,7 +24,8 @@ From an anaconda prompt terminal, navigate to the folder in which you have place
 The name of the new environment will be <code>rl-hands-on</code>.
 
 After your virtual environment is created, you also need to activate it in your terminal. This is done through the following command:
-<code>conda activate RL-hands-on-env </code>, if you are using anaconda.
+
+<code>conda activate rl-hands-on </code>, if you are using anaconda.
 
 #### Installing packages (conda)
 
@@ -32,7 +33,7 @@ Run the following commands to install the necessary packages.
 
 <code>conda install pytorch torchvision cpuonly -c pytorch</code>
 
-<code>pip install gym matplotlib numpy scipy jupyterlab stable-baselines3 tensorboard</code>
+<code>pip install gym matplotlib numpy scipy jupyterlab stable-baselines3 tensorboard PyQt5</code>
 
 ### Using pip (standard python)
 From a terminal, write the command
@@ -51,5 +52,5 @@ This should install all packages you will need to run the notebook.
 If there are any issues using the requirements.txt file to install your packages, the ones you need are as follows:
 
 <pre><code> 
-pip install stable-baselines3 numpy matplotlib torchvision gym scipy jupyterlab torch
+pip install stable-baselines3 numpy matplotlib torchvision gym scipy jupyterlab torch PyQt5
 </pre></code> 
