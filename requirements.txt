@@ -7,3 +7,4 @@ scipy
 jupyterlab
 torch
 tensorboard
+PyQt5
