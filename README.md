@@ -39,7 +39,7 @@ Run the following commands to install the necessary packages.
 From a terminal, write the command
 <code>python3 -m venv /path/to/new/virtual/environment </code> to create your venv.
 After your virtual environment is created, you also need to activate it in your terminal. This is done through the following command:
-<code>python3 source /path/to/new/virtual/environment/bin/activate </code>
+<code>source /path/to/new/virtual/environment/bin/activate </code>
 
 #### Installing required packages in your venv
 
