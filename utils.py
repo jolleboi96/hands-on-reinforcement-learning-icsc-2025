@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from scipy.signal import find_peaks
 from torchvision import transforms
 from dataloader import ToTensor, Normalize, AddNoise
-import gym
+import gymnasium as gym
 
 transform=transforms.Compose([
             Normalize(),
